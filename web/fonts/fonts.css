@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Open+Sans_400_normal.eot); /* http://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0f.eot */
+    src: local('☺'),
+        url(Open+Sans_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0f.eot */
+        url(Open+Sans_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0b.woff2 */
+        url(Open+Sans_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0d.woff */
+        url(Open+Sans_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0ef8pkAg.ttf */
+        url(Open+Sans_400_normal.svg#Open+Sans_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=mem8YaGs126MiZpBA-UFVZ0c&skey=62c1cbfccc78b4b2&v=v17#OpenSans */
+}
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Montserrat_400_normal.eot); /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzw.eot */
+    src: local('☺'),
+        url(Montserrat_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzw.eot */
+        url(Montserrat_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2 */
+        url(Montserrat_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhzQ.woff */
+        url(Montserrat_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhziTh89Y.ttf */
+        url(Montserrat_400_normal.svg#Montserrat_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=JTUSjIg1_i6t8kCHKm459WlhzA&skey=7bc19f711c0de8f&v=v14#Montserrat */
+}
+
+@font-face {
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 400;
+    src: local('☺'),
+        url(Segoe UI.ttf) format('truetype'), /* http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhziTh89Y.ttf */
+}
+@font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Fira+Code_400_normal.eot); /* http://fonts.gstatic.com/s/firacode/v3/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Mg.eot */
+    src: local('☺'),
+        url(Fira+Code_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/firacode/v3/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Mg.eot */
+        url(Fira+Code_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/firacode/v3/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2 */
+        url(Fira+Code_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/firacode/v3/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7MA.woff */
+        url(Fira+Code_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/firacode/v3/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7M-zjojw.ttf */
+        url(Fira+Code_400_normal.svg#Fira+Code_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7MQ&skey=33bc0af28fd31bc7&v=v3#FiraCode */
+}
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Fira+Sans_400_normal.eot); /* http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5Vvl4jP.eot */
+    src: local('☺'),
+        url(Fira+Sans_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5Vvl4jP.eot */
+        url(Fira+Sans_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5Vvl4jL.woff2 */
+        url(Fira+Sans_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5Vvl4jN.woff */
+        url(Fira+Sans_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/firasans/v10/va9E4kDNxMZdWfMOD5Vvl4jOazX3dA.ttf */
+        url(Fira+Sans_400_normal.svg#Fira+Sans_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=va9E4kDNxMZdWfMOD5Vvl4jM&skey=6bde03e5f15b0572&v=v10#FiraSans */
+}

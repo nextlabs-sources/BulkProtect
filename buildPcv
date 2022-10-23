@@ -1,0 +1,78 @@
+
+export VERSION_NUMBER=1.0
+export ANT_HOME=${nlexternaldir}/apache-ant/apache-ant-1.9.4
+ANT=$ANT_HOME/bin/ant
+
+(
+set -x
+
+
+# GET NextlabsVFS Jars and make it available as internal dependecncy for build_xlib
+lastBuild=$(ls -tr "/mnt/windowsshares/sv-fsrv02.nextlabs.com/build/release_candidate/NextlabsVFS/0.1.0" | tail -1)
+export nextlabsVfspath=/mnt/windowsshares/sv-fsrv02.nextlabs.com/build/release_candidate/NextlabsVFS/0.1.0/${lastBuild}/NextLabsVFS-0.1.0-${lastBuild}.zip
+export nextlabsvfszip=/mnt/windowsshares/sv-fsrv02.nextlabs.com/build/pcv/NextlabsVFS/artifacts/0.1.0/75PS-firstver/NextLabsVFS-0.1.0-75PS-firstver-202207210218-build.zip
+
+# export nextlabsVfspath=/mnt/windowsshares/sv-fsrv02.nextlabs.com/build/release_candidate/NextlabsVFS/0.1.0/53/NextLabsVFS-0.1.0-53.zip
+# echo nextlabsVfspath
+
+
+export ANT_OPTS="-Xmx1024M"
+# ANT will not take variables directly exported from linux , so we need to pass as parameter with -D 
+export ANT_ARGS="-Dnlbuildroot=$nlbuildroot -Dnlexternaldir=$nlexternaldir -DnextlabsVfspath=$nextlabsVfspath -Dversion_str=$VERSION_STR -Dversion_build_short=$VERSION_BUILD_SHORT -Dbuild_date_long=$BUILD_DATE_LONG -Dnextlabsvfszip=$nextlabsvfszip -Djtaggerzip=$jtaggerzip -Drmsserversdk=$rmsserversdk"
+
+
+# STEP 1 
+# Prepare dependencies
+$ANT -f scripts/build_xlib.xml || exit $?
+
+# STEP 2 - Get in to the web folder and start build web component
+cd ${nlbuildroot}/web
+/usr/local/lib/nodejs/bin/node /usr/local/lib/nodejs/bin/npm i --save 
+/usr/local/lib/nodejs/bin/node /usr/local/lib/nodejs/bin/npm run build 
+
+# Come out of web folder
+cd ..
+
+# STEP 3 - Compile code and build installers
+$ANT -f scripts/build_compile.xml || exit $?
+
+docker rmi $(docker images --filter=reference="*rightsprotect*" -q)
+docker build -t nextlabs/rightsprotect .
+
+# Save to Docker Registry
+echo "Save to Docker Registry"
+
+export internal_registry="registry.nextlabs.com"
+export registry_project="skydrm"
+docker login -u cr -p ${cr_passwd} ${internal_registry}
+rpt_image_tag="${internal_registry}/${registry_project}/skydrm-rightsprotect:${BUILD_NUMBER}"
+docker tag nextlabs/rightsprotect ${rpt_image_tag}
+docker push ${rpt_image_tag}
+
+# Save to file
+
+docker save -o ${WORKSPACE}/build/NextLabs-RightsProtectionTool-DockerImage-${VERSION_NUMBER}-${BUILD_NUMBER}.tar nextlabs/rightsprotect
+docker rmi $(docker images --filter=reference="*rightsprotect:*" -q)
+
+# APPEND BUILD LOG AND ARTIFACTS PATH TO BUIL MANIFEST FILE
+echo "NextLabs Create Build Manifest Script" >> ${BUILD_MANIFEST_FILE}
+echo "=====================================" >>  ${BUILD_MANIFEST_FILE}
+echo "Log File                   : ${LOG_FILE}" >>  ${BUILD_MANIFEST_FILE}
+echo "Product Name               : RightsProtectionTool"  >>  ${BUILD_MANIFEST_FILE}
+echo "Docker Image Tag           : nextlabs/rightsprotect:${BUILD_NUMBER}" >>  ${BUILD_MANIFEST_FILE}
+echo "Docker TAR Location        : ${PUBLISH_DIR}/NextLabs-RightsProtectionTool-DockerImage-${VERSION_NUMBER}-${BUILD_NUMBER}.zip" >>  ${BUILD_MANIFEST_FILE}
+
+# ECHO CONTENT OF BUILD MANIFEST FILE
+cat ${BUILD_MANIFEST_FILE}
+
+mkdir -p ${PUBLISH_DIR}
+
+# COPY BUILD MANIFEST TO BUILD PUBLISH DIRECTORY
+cp ${BUILD_MANIFEST_FILE} ${PUBLISH_DIR}/
+
+# COPY BUILD ARTIFACTS TO S DRIVE
+cp ${WORKSPACE}/build/NextLabs-RightsProtectionTool-DockerImage-${VERSION_NUMBER}-${BUILD_NUMBER}.tar ${PUBLISH_DIR}/
+set +x
+) 2>&1 | tee $LOG_FILE
+
+

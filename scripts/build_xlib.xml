@@ -1,0 +1,136 @@
+<!-- build_xlib.xml Description: This ANT script constructs <project root>/xlib. To use this script, you must update properties is <project root>/scripts/build.properties or overide them from commandline (using -D option). For example: set PATH=C:\depot\external\apache-ant\apache-ant-1.8.4\bin;%PATH% 
+	ant -XX:MaxPermSize=512m -Dnlbuildroot=C:/depot/PolicyStudio/dev/BuildScript_1205 -Dexternal.dir=c:/depot/external -Dnlexternaldir=c:/depot/external -f scripts/build_xlib.xml or set PATH=C:\depot\external\apache-ant\apache-ant-1.8.4\bin;%PATH% set ANT_OPTS=-XX:MaxPermSize=512m -Dnlbuildroot=%nlbuildroot% 
+	-Dexternal.dir=%nlexternaldir% -Dnlexternaldir=%nlexternaldir% ant -f scripts/build_xlib.xml -v -->
+
+<project name="build_xlib" default="all" basedir=".">
+	<!-- Debug <echoproperties /> <fail message="INFO: Debug" /> -->
+
+	<!-- Property files -->
+	<property file="${basedir}/build.properties" />
+
+	<!-- Global properties -->
+
+	<property name="xlib_dir" location="${nlbuildroot}/xlib" />
+
+	<!-- Dump properties -->
+	<echoproperties />
+
+	<echo message="INFO: Dump properties completed" />
+
+	<!-- Sanity checks -->
+	<fail message="nlbuildroot is not set" unless="nlbuildroot" />
+	<fail message="nlbuildroot is empty">
+		<condition>
+			<equals arg1="${nlbuildroot}" arg2="" trim="true" />
+		</condition>
+	</fail>
+	<available file="${nlbuildroot}" type="dir" property="local.nlbuildroot_exists" />
+	<fail message="nlbuildroot directory does not exist - ${nlbuildroot}" unless="local.nlbuildroot_exists" />
+
+	<fail message="nlexternaldir is not set" unless="nlexternaldir" />
+	<fail message="nlexternaldir is empty">
+		<condition>
+			<equals arg1="${nlexternaldir}" arg2="" trim="true" />
+		</condition>
+	</fail>
+	<available file="${nlexternaldir}" type="dir" property="local.nlexternaldir_exists" />
+	<fail message="nlexternaldir directory does not exist - ${nlexternaldir}" unless="local.nlexternaldir_exists" />
+
+
+	<echo message="INFO: Sanity check completed (no error)" />
+
+	<!-- Targets -->
+	<target name="all" depends="clean, prepare_internal_jar, prepare_external_jar" />
+
+<!-- // glob all jars from the zip inside here nextlabsVfspath -->
+	<unzip src="${nextlabsVfspath}"
+		dest="${xlib_dir}">
+		<patternset>
+			<include name="**/*.java"/>
+		</patternset>
+	</unzip>
+
+
+	<target name="prepare_internal_jar">
+		
+
+		<copy file="${nlexternaldir}/log4j/apache-log4j-2.11.1/log4j-api-2.11.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/log4j/apache-log4j-2.11.1/log4j-core-2.11.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+
+	</target>
+
+
+	<target name="prepare_external_jar">
+		<mkdir dir="${xlib_dir}" />
+		<copy file="${nlexternaldir}/commons-configuration/commons-configuration-1.8/commons-configuration-1.8.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/commons-httpclient/commons-httpclient-3.1/commons-httpclient-3.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/commons-lang/commons-lang-2.6/commons-lang-2.6.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/commons-logging-1.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/fluent-hc-4.5.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/httpclient-4.5.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/httpclient-cache-4.5.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/httpclient-win-4.5.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/httpcore-4.4.4.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-httpcomponents/client/4.5.2/lib/httpmime-4.5.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/jackson/jackson-2.9.8/jackson-core-2.9.8.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/jcifs-ng/jcifs-ng-2.1.7.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/junit/4.12/junit-4.12.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/bouncycastlejce/bouncycastle_1_57/bcprov-jdk15on-1.57.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />		
+		<copy file="${nlexternaldir}/elasticsearch/elasticsearch-6.4.3/lib/tools/security-cli/bcpkix-jdk15on-1.57.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />		
+		<copy file="${nlexternaldir}/eclipse/eclipse3.4.2_x64/eclipse/plugins/Test_64bit_lib/common-framework.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/solr/solr-4.10.3/licenses/commons-cli-1.2.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-poi/poi-3.14/lib/commons-codec-1.10.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/commons-httpclient/commons-httpclient-3.1/commons-httpclient-3.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/cas-server/cas-server-4.1.5-cc9.0/WEB-INF/lib/commons-lang3-3.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/yajsw-beta-12.05/lib/core/commons/commons-vfs2-2.4.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/hibernate/hibernate-5.0.7/dom4j-1.6.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/jackson/jackson-2.9.9/jackson-annotations-2.9.9.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/jackson/jackson-2.9.9/jackson-databind-2.9.9.1.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/Java-WebSocket/Java-WebSocket-1.4.0.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/log4j/apache-log4j-2.11.1/log4j-api-2.12.0.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/log4j/apache-log4j-2.11.1/log4j-core-2.12.0.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/pdfbox/pdfbox-2.0.4/pdfbox-app-2.0.4.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-poi/poi-3.11/poi-3.11-20141221.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-poi/poi-3.11/poi-ooxml-schemas-3.11-20141221.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/slf4j/slf4j-1.7.26/slf4j-api-1.7.26.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/slf4j/slf4j-1.7.26/slf4j-simple-1.7.26.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-poi/poi-3.13/ooxml-lib/xmlbeans-2.6.0.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		<copy file="${nlexternaldir}/apache-poi/poi-3.11/poi-ooxml-3.11-20141221.jar" todir="${xlib_dir}" preservelastmodified="true" overwrite="false" verbose="true" />
+		
+		
+
+		<!-- unzip command here -->
+		<!-- and CD into this NextLabsVFS -->
+		
+
+		<unzip src="${nextlabsvfszip}" dest="${xlib_dir}" >
+			<patternset>
+				<include name="**/*.jar"/>
+			</patternset>
+			<mapper type="flatten"/>
+
+		</unzip>
+
+		<unzip src="${jtaggerzip}" dest="${xlib_dir}" >
+			<patternset>
+				<include name="**/*.jar"/>
+			</patternset>
+			<mapper type="flatten"/>
+
+		</unzip>
+
+		<unzip src="${rmsserversdk}" dest="${xlib_dir}" >
+			<patternset>
+				<include name="**/*.jar"/>
+			</patternset>
+			<mapper type="flatten"/>
+
+		</unzip>
+
+
+	</target>
+
+	<target name="clean">
+		<delete dir="${xlib_dir}" />
+	</target>
+</project>

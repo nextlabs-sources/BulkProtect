@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+  <Properties>
+    <Property name="logFilename">main</Property>
+  </Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d [%-6p] %C{1}.%M(%F:%L) – %m%n" />
+		</Console>
+    <File name="MainLogFile" fileName="logs/all.log" append="false">
+      <PatternLayout pattern="%d [%-6p] %C{1}.%M(%F:%L) – %m%n"/>
+    </File>
+    <Routing name="RoutingAppender">
+      <Routes pattern="$${ctx:logFilename}">
+        <Route>
+          <File name="File-${ctx:logFilename}" fileName="logs/history/${ctx:logFilename}.log" append="true">
+            <PatternLayout pattern="%d [%-6p] %C{1}.%M(%F:%L) – %m%n"/>
+          </File>
+          <Route ref="Console" key="${ctx:logFileName}"/>
+        </Route>
+        <IdlePurgePolicy timeToLive="15" timeUnit="minutes"/>
+      </Routes>
+    </Routing>
+	</Appenders>
+  
+	<Loggers>
+    <Root level="DEBUG">
+      <AppenderRef ref="RoutingAppender" level="ERROR"/>
+			<AppenderRef ref="Console" />
+      <AppenderRef ref="MainLogFile" />
+		</Root>
+	</Loggers>
+</Configuration>
